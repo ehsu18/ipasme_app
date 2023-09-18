@@ -12,8 +12,9 @@ import { getInformes, postInforme } from "../tools/api";
 import * as styles from "./styles";
 import { dateToString } from "../tools/utils";
 import { useNavigate } from "react-router-native";
+import { deleteToken } from "../tools/manageStorage";
 
-export function InformesPage() {
+export function InformesPage({setLoged}) {
   const navigate = useNavigate()
   let [informes, setInformes] = useState([]);
 
@@ -21,7 +22,7 @@ export function InformesPage() {
     getInformes()
       .then((response) => response.json())
       .then((json) => {
-        // console.log(json)
+        console.log(json)
         if (Array.isArray(json) && json.length > 0) {
           setInformes(json);
         } else {
@@ -95,7 +96,35 @@ export function InformesPage() {
       </View>
 
       <View style={[styles.bottomButtonContainer]}>
-        <Button title="Cerrar sesión" color={styles.ACT_DANGER} />
+        <Button title="Cerrar sesión" color={styles.ACT_DANGER} onPress={()=>{
+          Alert.alert(
+            "¿Está seguro de querer cerrar sesión?",
+            "Ningún dato se perderá.",
+            [
+              // The "Yes" button
+              {
+                text: "Yes",
+                onPress: async () => {
+                  try{
+                    await deleteToken()
+                    setLoged(false)
+                  } catch (error) {
+                    Alert.alert('error')
+                    console.log(error)
+                  }
+                  
+                },
+              },
+              // The "No" button
+              // Does nothing but dismiss the dialog when tapped
+              {
+                text: "No",
+              },
+            ]
+          );
+          
+
+        }} />
         <Button title="Añadir informe" onPress={()=>{
           postInforme({})
           .then((response) => response.json())

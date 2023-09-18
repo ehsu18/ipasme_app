@@ -32,7 +32,7 @@ function Cita() {
         setInitialData(json);
       })
       .catch((error) => {
-        Alert.alert("Ocurrió un error cargando los datos de la cita.");
+        Alert.alert("Ocurrió un error cargando los datos de la cita.", error);
         console.log(error);
         setCitaData({});
       });
