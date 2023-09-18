@@ -159,7 +159,7 @@ function Cita() {
                 })
                 .catch((error) => {
                   Alert.alert(
-                    "Ocurrió un error tratando de registrar la historia."
+                    "Ocurrió un error tratando de guardar la historia."
                   );
                   console.log(error.msg);
                 });
@@ -173,7 +173,7 @@ function Cita() {
 
 export default Cita;
 
-function DataBoxContainer({ children, data, setData }) {
+export function DataBoxContainer({ children, data, setData }) {
   return (
     <>
       {React.Children.map(children, (child) =>
@@ -186,7 +186,7 @@ function DataBoxContainer({ children, data, setData }) {
   );
 }
 
-function TextBox({ label, name, data, setData }) {
+export function TextBox({ label, name, data, setData }) {
   //   let [content, setContent] = useState("");
 
   //   useEffect(() => {
@@ -214,6 +214,27 @@ function TextBox({ label, name, data, setData }) {
           });
         }}
         value={data[name]}
+        placeholder="-"
+      />
+    </View>
+  );
+}
+
+export function NumberBox({ label, name, data, setData }) {
+
+  return (
+    <View style={[styles.dataBox]}>
+      <Text style={[styles.dataBoxLabel]}>{label}</Text>
+      <TextInput
+        style={styles.dataBoxInput}
+        onChangeText={(txt) => {
+          setData({
+            ...data,
+            [name]: parseInt(txt),
+          });
+        }}
+        inputMode="numeric"
+        value={data[name] ? data[name].toString() : ''}
         placeholder="-"
       />
     </View>

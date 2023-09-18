@@ -58,7 +58,9 @@ export const listRow = {
   alignItems: "center",
   padding: 12,
   borderBottomWidth: 1,
+  borderColor: BORDER,
   width: "100%",
+  backgroundColor:ACT_WHITE
 };
 
 export const flexCenter = {

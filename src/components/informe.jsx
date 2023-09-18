@@ -12,7 +12,8 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-native";
 import * as styles from "./styles";
 import { dateToString, titleCase } from "../tools/utils";
-import { getInforme, getInformeCitas, postCita } from "../tools/api";
+import { deleteInforme, getInforme, getInformeCitas, postCita } from "../tools/api";
+
 
 function Informe() {
   const navigate = useNavigate();
@@ -73,7 +74,9 @@ function Informe() {
             </Text>
           </View>
           <View>
-            <Button title="Editar" />
+            <Button title="Editar" onPress={()=>{
+              navigate(`/informe_details/${informeId}`, {replace:true});
+            }}/>
           </View>
         </View>
       </View>
@@ -114,8 +117,50 @@ function Informe() {
       </View>
 
       <View style={[styles.bottomButtonContainer]}>
+
         <Button
-          title="Back"
+          title="Eliminar informe"
+          color={styles.ACT_DANGER}
+          onPress={() => {
+            Alert.alert(
+              "¿Está seguro de querer ELIMINAR este informe?",
+              "No hay vuelta atrás para este cambio.",
+              [
+                // The "Yes" button
+                {
+                  text: "Yes",
+                  onPress: () => {
+                    deleteInforme(informeId)
+                      .then((response) => response.json())
+                      .then((json) => {
+                        if (json["result"] === "ok") {
+                          Alert.alert("Informe eliminado.");
+                          navigate(`/`, {
+                            replace: true,
+                          });
+                        } else {
+                          throw new Error(json["error"]);
+                        }
+                      })
+                      .catch((error) => {
+                        Alert.alert(
+                          "Ocurrió un error, no se pudo comprobar la eliminación"
+                        );
+                        console.error(error);
+                      });
+                  },
+                },
+                // The "No" button
+                // Does nothing but dismiss the dialog when tapped
+                {
+                  text: "No",
+                },
+              ]
+            );
+          }}
+        />
+        <Button
+          title="Volver a inicio"
           onPress={() => {
             navigate("/", { replace: true });
           }}

@@ -141,3 +141,27 @@ export function deleteCita(citaId){
     },
   }));
 }
+
+export function putInforme(id, data){
+  if (data === undefined) {
+    throw new Error("no data received");
+  }
+  return checkResponseCode(fetch(API_URL + INFORMES+'/'+id, {
+    method: "PUT",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `token ${authToken()}`
+    },
+    body: JSON.stringify(data),
+  }))
+}
+
+export function deleteInforme(id){
+  return checkResponseCode(fetch(API_URL + INFORMES+'/'+id, {
+    method: "DELETE",
+    headers: {
+      Authorization: `token ${authToken()}`
+    }
+  }))
+  }

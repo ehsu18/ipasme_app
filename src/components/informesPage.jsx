@@ -95,13 +95,13 @@ export function InformesPage() {
       </View>
 
       <View style={[styles.bottomButtonContainer]}>
-        <Button title="Cerrar sesión" />
-        <Button title="Añadir nuevo" onPress={()=>{
+        <Button title="Cerrar sesión" color={styles.ACT_DANGER} />
+        <Button title="Añadir informe" onPress={()=>{
           postInforme({})
           .then((response) => response.json())
           .then((json) => {
             if (json["result"] === "ok" && json["informe_id"]) {
-              navigate(`/informe/${json.informe_id}`, {replace:true});
+              navigate(`/informe_details/${json.informe_id}`, {replace:true});
             } else {
               throw new Error(
                 "An error ocurred recieving the informe id"
