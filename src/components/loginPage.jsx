@@ -23,7 +23,7 @@ import background from '../assets/png/login-bg.png'
 
 
 function LoginPage({ setLogged }) {
-  let [url, setUrl] = useState("http://192.168.0.108:8000/");
+  let [url, setUrl] = useState("http://10.0.2.2:8000/"); //10.0.2.2 en local para acceder a la propia maquina (127.0.0.1)
   let [username, setUsername] = useState("");
   let [password, setPassword] = useState("");
   return (
@@ -103,8 +103,8 @@ function LoginPage({ setLogged }) {
                 }
               })
               .catch((error) => {
-                console.error(error);
-                Alert.alert("Datos incorrectos.", error);
+                // console.error(error.message);
+                Alert.alert("Datos incorrectos.", error.message);
               });
           }}
         />
