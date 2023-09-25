@@ -12,6 +12,7 @@ import {
 import { Text, TextInput } from "react-native";
 import React, { useEffect, useState } from "react";
 import { dateToString, titleCase } from "../tools/utils";
+import { PageHeader } from "./pageHeader";
 
 function Cita() {
   const navigate = useNavigate();
@@ -40,11 +41,7 @@ function Cita() {
 
   return (
     <View style={[styles.flexGrow]}>
-      <View style={[styles.pageHeader1]}>
-        <Text style={[styles.text.titleBig, styles.color.fgWhite]}>
-          Editando cita
-        </Text>
-      </View>
+      <PageHeader title={'Editando cita'} />
 
       <ScrollView
         style={[

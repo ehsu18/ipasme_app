@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { Text } from "react-native";
 import { useEffect, useState } from "react";
-
+import { PageHeader } from "./pageHeader";
 import { useNavigate, useParams } from "react-router-native";
 import * as styles from "./styles";
 import { dateToString, titleCase } from "../tools/utils";
@@ -41,11 +41,7 @@ function InformeDetails() {
 
   return (
     <View style={[styles.flexGrow]}>
-      <View style={[styles.pageHeader1]}>
-        <Text style={[styles.text.titleBig, styles.color.fgWhite]}>
-          Detalles de informe
-        </Text>
-      </View>
+      <PageHeader title={'Detalles de informe'} />
 
       <ScrollView
         style={[

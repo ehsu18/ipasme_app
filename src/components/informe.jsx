@@ -13,7 +13,7 @@ import { useNavigate, useParams } from "react-router-native";
 import * as styles from "./styles";
 import { dateToString, titleCase } from "../tools/utils";
 import { deleteInforme, getInforme, getInformeCitas, postCita } from "../tools/api";
-
+import { PageHeader } from "./pageHeader";
 
 function Informe() {
   const navigate = useNavigate();
@@ -40,11 +40,7 @@ function Informe() {
 
   return (
     <View style={[styles.flexGrow]}>
-      <View style={[styles.pageHeader1]}>
-        <Text style={[styles.text.titleBig, styles.color.fgWhite]}>
-          Editando informe
-        </Text>
-      </View>
+      <PageHeader title={'Editando informe'} />
 
       <View>
         <View

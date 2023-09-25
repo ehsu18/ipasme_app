@@ -7,22 +7,25 @@ import {
   Button,
   Alert,
   BackHandler,
+  Image,
 } from "react-native";
 import { getInformes, postInforme } from "../tools/api";
 import * as styles from "./styles";
 import { dateToString } from "../tools/utils";
 import { useNavigate } from "react-router-native";
 import { deleteToken } from "../tools/manageStorage";
+import { PageHeader } from "./pageHeader";
 
-export function InformesPage({setLoged}) {
-  const navigate = useNavigate()
+
+export function InformesPage({ setLoged }) {
+  const navigate = useNavigate();
   let [informes, setInformes] = useState([]);
 
   useEffect(() => {
     getInformes()
       .then((response) => response.json())
       .then((json) => {
-        console.log(json)
+        console.log(json);
         if (Array.isArray(json) && json.length > 0) {
           setInformes(json);
         } else {
@@ -38,18 +41,18 @@ export function InformesPage({setLoged}) {
 
   return (
     <View style={styles.flexGrow}>
-      <View style={[styles.pageHeader1]}>
-        <Text style={[styles.text.titleBig, styles.color.fgWhite]}>
-          Informes
-        </Text>
-      </View>
-
+      <PageHeader title={'Informes'} />
       <View style={styles.flexGrow}>
         {Array.isArray(informes) && informes.length > 0 ? (
           <>
-            <View style={[styles.listRow, {
-              flex:0
-            }]}>
+            <View
+              style={[
+                styles.listRow,
+                {
+                  flex: 0,
+                },
+              ]}
+            >
               <View
                 style={{
                   justifyContent: "center",
@@ -81,9 +84,9 @@ export function InformesPage({setLoged}) {
               </View>
             </View>
             <FlatList
-            style={{
-              flex:0
-            }}
+              style={{
+                flex: 0,
+              }}
               data={informes}
               renderItem={(iter) => (
                 <InformesListItem informe={iter.item} key={iter.index} />
@@ -91,57 +94,65 @@ export function InformesPage({setLoged}) {
             />
           </>
         ) : (
-          <Text>Lista vacia</Text>
+          <View style={[styles.flexCenter, styles.flexGrow]}>
+            <Text style={[styles.text.center, styles.text.titleReg]}>
+              Lista vacia
+            </Text>
+          </View>
         )}
       </View>
 
       <View style={[styles.bottomButtonContainer]}>
-        <Button title="Cerrar sesión" color={styles.ACT_DANGER} onPress={()=>{
-          Alert.alert(
-            "¿Está seguro de querer cerrar sesión?",
-            "Ningún dato se perderá.",
-            [
-              // The "Yes" button
-              {
-                text: "Yes",
-                onPress: async () => {
-                  try{
-                    await deleteToken()
-                    setLoged(false)
-                  } catch (error) {
-                    Alert.alert('error')
-                    console.log(error)
-                  }
-                  
+        <Button
+          title="Cerrar sesión"
+          color={styles.ACT_DANGER}
+          onPress={() => {
+            Alert.alert(
+              "¿Está seguro de querer cerrar sesión?",
+              "Ningún dato se perderá.",
+              [
+                // The "Yes" button
+                {
+                  text: "Yes",
+                  onPress: async () => {
+                    try {
+                      await deleteToken();
+                      setLoged(false);
+                    } catch (error) {
+                      Alert.alert("error");
+                      console.log(error);
+                    }
+                  },
                 },
-              },
-              // The "No" button
-              // Does nothing but dismiss the dialog when tapped
-              {
-                text: "No",
-              },
-            ]
-          );
-          
-
-        }} />
-        <Button title="Añadir informe" onPress={()=>{
-          postInforme({})
-          .then((response) => response.json())
-          .then((json) => {
-            if (json["result"] === "ok" && json["informe_id"]) {
-              navigate(`/informe_details/${json.informe_id}`, {replace:true});
-            } else {
-              throw new Error(
-                "An error ocurred recieving the informe id"
-              );
-            }
-          })
-          .catch((error) => {
-            Alert.alert("No se pudo crear el informe");
-            console.log(error);
-          });
-        }} />
+                // The "No" button
+                // Does nothing but dismiss the dialog when tapped
+                {
+                  text: "No",
+                },
+              ]
+            );
+          }}
+        />
+        <Button
+          title="Añadir informe"
+          onPress={() => {
+            postInforme({})
+              .then((response) => response.json())
+              .then((json) => {
+                if (json["result"] === "ok" && json["informe_id"]) {
+                  navigate(`/informe_details/${json.informe_id}`, {
+                    replace: true,
+                  });
+                } else {
+                  throw new Error("An error ocurred recieving the informe id");
+                }
+              })
+              .catch((error) => {
+                Alert.alert("No se pudo crear el informe");
+                console.log(error);
+              });
+          }}
+        />
       </View>
     </View>
   );

@@ -28,9 +28,10 @@ export const mainViewStyle = {
 export const pageHeader1 = {
   width: "100%",
   height: 114,
+  position:'relative',
   backgroundColor: MAIN_COLOR,
   justifyContent: "center",
-  alignItems: "center",
+  alignItems: "center"
 };
 
 export const text = StyleSheet.create({
@@ -71,11 +72,12 @@ export const flexCenter = {
 export const bottomButtonContainer = {
   width: "100%",
   padding: 24,
+  height: 112,
   backgroundColor: ACT_WHITE,
   borderColor: BORDER,
   borderTopWidth: 1,
   flexDirection: "row",
-  gap: 12,
+  gap: 24,
   justifyContent: "center",
   alignItems: "center",
 };
