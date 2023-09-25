@@ -12,7 +12,12 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-native";
 import * as styles from "./styles";
 import { dateToString, titleCase } from "../tools/utils";
-import { deleteInforme, getInforme, getInformeCitas, postCita } from "../tools/api";
+import {
+  deleteInforme,
+  getInforme,
+  getInformeCitas,
+  postCita,
+} from "../tools/api";
 import { PageHeader } from "./pageHeader";
 
 function Informe() {
@@ -32,15 +37,15 @@ function Informe() {
         setInformeData(json);
       })
       .catch((error) => {
-        Alert.alert("Ocurrió un error cargando los datos del informe.");
-        console.log(error);
+        Alert.alert("Ocurrió un error cargando los datos del informe.", error.message);
+        console.log( error.message);
         setInformeData({});
       });
   }, [informeId]);
 
   return (
     <View style={[styles.flexGrow]}>
-      <PageHeader title={'Editando informe'} />
+      <PageHeader title={"Editando informe"} />
 
       <View>
         <View
@@ -70,9 +75,12 @@ function Informe() {
             </Text>
           </View>
           <View>
-            <Button title="Editar" onPress={()=>{
-              navigate(`/informe_details/${informeId}`, {replace:true});
-            }}/>
+            <Button
+              title="Editar"
+              onPress={() => {
+                navigate(`/informe_details/${informeId}`, { replace: true });
+              }}
+            />
           </View>
         </View>
       </View>
@@ -92,28 +100,25 @@ function Informe() {
         <Button
           title="Añadir cita"
           onPress={() => {
-            postCita({informe: informeId})
-                .then((response) => response.json())
-                .then((json) => {
-                    // console.log(json)
-                  if (json["result"] === "ok" && json["cita_id"]) {
-                    navigate(`/cita/${json["cita_id"]}`, {replace:true});
-                  } else {
-                    throw new Error(
-                      "An error ocurred recieving the cita id"
-                    );
-                  }
-                })
-                .catch((error) => {
-                  Alert.alert("No se pudo crear la cita");
-                  console.log(error);
-                });
+            postCita({ informe: informeId })
+              .then((response) => response.json())
+              .then((json) => {
+                // console.log(json)
+                if (json["result"] === "ok" && json["cita_id"]) {
+                  navigate(`/cita/${json["cita_id"]}`, { replace: true });
+                } else {
+                  throw new Error("An error ocurred recieving the cita id");
+                }
+              })
+              .catch((error) => {
+                Alert.alert("No se pudo crear la cita", error.message);
+                console.log( error.message);
+              });
           }}
         />
       </View>
 
       <View style={[styles.bottomButtonContainer]}>
-
         <Button
           title="Eliminar informe"
           color={styles.ACT_DANGER}
@@ -140,9 +145,9 @@ function Informe() {
                       })
                       .catch((error) => {
                         Alert.alert(
-                          "Ocurrió un error, no se pudo comprobar la eliminación"
+                          "Ocurrió un error, no se pudo comprobar la eliminación", error.message
                         );
-                        console.error(error);
+                        console.error( error.message);
                       });
                   },
                 },
@@ -182,7 +187,7 @@ function CitasList({ informeId }) {
       })
       .catch((error) => {
         setCitas(false);
-        throw new Error(error);
+        // Alert.alert(error.message);
       });
   }, [informeId]);
 
@@ -192,7 +197,6 @@ function CitasList({ informeId }) {
         style={{
           width: "100%",
           flexDirection: "row",
-          
         }}
       >
         <Text
@@ -221,7 +225,11 @@ function CitasList({ informeId }) {
       />
     </>
   ) : (
-    <Text>Lista vacía</Text>
+    <View style={[styles.flexCenter, styles.flexGrow]}>
+      <Text style={[styles.text.center, styles.text.titleReg]}>
+        Lista vacia
+      </Text>
+    </View>
   );
 }
 
@@ -230,7 +238,7 @@ function CitasListItem({ cita, navigate }) {
   return cita.record_id ? (
     <TouchableNativeFeedback
       onPress={() => {
-        navigate(`/cita/${cita.id}`, {replace:true});
+        navigate(`/cita/${cita.id}`, { replace: true });
       }}
     >
       <View style={styles.citasListItem}>
@@ -243,8 +251,7 @@ function CitasListItem({ cita, navigate }) {
   ) : (
     <TouchableNativeFeedback
       onPress={() => {
-
-        navigate(`/cita/${cita.id}`, {replace:true});
+        navigate(`/cita/${cita.id}`, { replace: true });
       }}
     >
       <View style={styles.citasListItem}>

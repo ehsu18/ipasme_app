@@ -31,7 +31,7 @@ async function authToken() {
   // return window.localStorage.getItem('IpasmeRMSUserToken')
   // return "46e3c5275e3ca8d91d99752cd4428ff7fe7e3050";
   const token = await getToken();
-  console.log("api> ", token);
+  // console.log("api> ", token);
   return token;
 }
 
@@ -64,9 +64,12 @@ export async function getRecords(id = "") {
 export async function getInformes() {
   const apiUrl = await API_URL();
   const token = await authToken();
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 5000);
   return checkResponseCode(
     fetch(apiUrl + INFORMES, {
       headers: {
+        signal: controller.signal,
         Authorization: `token ${token}`,
       },
     })

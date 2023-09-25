@@ -33,8 +33,8 @@ function Cita() {
         setInitialData(json);
       })
       .catch((error) => {
-        Alert.alert("Ocurrió un error cargando los datos de la cita.", error);
-        console.log(error);
+        Alert.alert("Ocurrió un error cargando los datos de la cita.", error.message);
+        console.log( error.message);
         setCitaData({});
       });
   }, [citaId]);
@@ -112,9 +112,9 @@ function Cita() {
                       })
                       .catch((error) => {
                         Alert.alert(
-                          "Ocurrió un error, no se pudo comprobar la eliminación"
+                          "Ocurrió un error, no se pudo comprobar la eliminación", error.message
                         );
-                        console.error(error);
+                        console.error( error.message);
                       });
                   },
                 },
@@ -156,9 +156,9 @@ function Cita() {
                 })
                 .catch((error) => {
                   Alert.alert(
-                    "Ocurrió un error tratando de guardar la historia."
+                    "Ocurrió un error tratando de guardar la historia." , error.message
                   );
-                  console.log(error.msg);
+                  console.log(error.message);
                 });
             }
           }}
@@ -183,22 +183,7 @@ export function DataBoxContainer({ children, data, setData }) {
   );
 }
 
-export function TextBox({ label, name, data, setData }) {
-  //   let [content, setContent] = useState("");
-
-  //   useEffect(() => {
-  //     if (data === undefined) {
-  //       setContent("");
-  //       return;
-  //     }
-  //     try {
-  //       setContent(data[name]);
-  //     } catch {
-  //       console.log("error en input: ", name);
-  //       setContent("");
-  //     }
-  //   }, [data]);
-
+export function TextBox({ label, name, data, setData, placeholder='-' }) {
   return (
     <View style={[styles.dataBox]}>
       <Text style={[styles.dataBoxLabel]}>{label}</Text>
@@ -211,7 +196,7 @@ export function TextBox({ label, name, data, setData }) {
           });
         }}
         value={data[name]}
-        placeholder="-"
+        placeholder={placeholder}
       />
     </View>
   );

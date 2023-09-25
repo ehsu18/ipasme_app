@@ -29,12 +29,13 @@ function InformeDetails() {
     getInforme(informeId)
       .then((response) => response.json())
       .then((json) => {
-        console.log(json);
+        // console.log(json);
         setInformeData(json);
+        setInitialData(json);
       })
       .catch((error) => {
-        Alert.alert("Ocurrió un error cargando los datos del informe.");
-        console.log(error);
+        Alert.alert("Ocurrió un error cargando los datos del informe.", error.message);
+        console.log(error.message);
         setInformeData({});
       });
   }, [informeId]);
@@ -56,18 +57,18 @@ function InformeDetails() {
           }}
         >
             <DataBoxContainer data={informeData} setData={setInformeData}>
-                <TextBox label="Fecha" name={"fecha"} />
-                <TextBox label="Turno" name={"turno"} />
+                <TextBox label="Fecha" name={"fecha"} placeholder="aaa-mm-dd"/>
+                <TextBox label="Turno" name={"turno"} placeholder="Diurno/Matutino"/>
                 <TextBox label="Médico" name={"medico"} />
-                <NumberBox label="Cédula del médico" name={"medico_document"} />
-                <TextBox label="Nacionalidad del médico" name={"medico_nationality"} />
+                <NumberBox label="Cédula del médico" name={"medico_document"}  />
+                <TextBox label="Nacionalidad del médico" name={"medico_nationality"} placeholder='V/E' />
                 <TextBox label="Especialidad del informe" name={"especialidad"} />
                 <TextBox label="Código especialidad" name={"cod_especialidad"} />
                 <TextBox label="Horas diarias" name={"horas_diarias"} />
                 <TextBox label="Tipo de cargo" name={"tipo_cargo"} />
                 <TextBox label="Médico suplente" name={"medico_suplente"} />
                 <NumberBox label="Cédula de médico suplente" name={"medico_suplente_document"} />
-                <TextBox label="Nacionalidad de médico suplente" name={"medico_suplente_nationality"} />
+                <TextBox label="Nacionalidad de médico suplente" name={"medico_suplente_nationality"} placeholder='V/E' />
                 <TextBox label="Enfermera" name={"enfermera"} />
                 <TextBox label="Tiempo de consulta" name={"tiempo_consulta"} />
                 <TextBox label="Rendimiento diario" name={"rendimiento_diario"} />
@@ -88,11 +89,14 @@ function InformeDetails() {
           title="Guardar cambios"
           onPress={() => {
             let changes = {};
+            console.log('informedata', informeData)
+            console.log('initialData', initialData)
             for (let key in informeData) {
               if (informeData[key] !== initialData[key]) {
                 changes[key] = informeData[key];
               }
             }
+            console.log('changes', changes)
 
             if (Object.keys(changes).length === 0) {
               Alert.alert("Sin cambios");
@@ -113,9 +117,9 @@ function InformeDetails() {
                 })
                 .catch((error) => {
                   Alert.alert(
-                    "Ocurrió un error tratando de guardar el informe."
+                    "Ocurrió un error tratando de guardar el informe.", error.message
                   );
-                  console.log(error.msg);
+                  console.log(error.message);
                 });
             }
           }}

@@ -47,7 +47,7 @@ export async function setToken(value) {
 
 export async function getToken() {
   let result = await SecureStore.getItemAsync("userToken");
-  console.log('token', result)
+  // console.log('token', result)
   if (result) {
     return result;
   } else {

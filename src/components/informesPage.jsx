@@ -22,6 +22,7 @@ export function InformesPage({ setLoged }) {
   let [informes, setInformes] = useState([]);
 
   useEffect(() => {
+    
     getInformes()
       .then((response) => response.json())
       .then((json) => {
@@ -33,8 +34,8 @@ export function InformesPage({ setLoged }) {
         }
       })
       .catch((error) => {
-        Alert.alert("Ocurrió un error cargando los informes.");
-        console.log(error);
+        Alert.alert("Ocurrió un error cargando los informes.", error.message);
+        console.log(error.message);
         setInformes([]);
       });
   }, []);
@@ -148,8 +149,8 @@ export function InformesPage({ setLoged }) {
                 }
               })
               .catch((error) => {
-                Alert.alert("No se pudo crear el informe");
-                console.log(error);
+                Alert.alert("No se pudo crear el informe", error.message);
+                console.log(error.message);
               });
           }}
         />
