@@ -68,8 +68,8 @@ export async function getInformes() {
   const timeoutId = setTimeout(() => controller.abort(), 5000);
   return checkResponseCode(
     fetch(apiUrl + INFORMES, {
+      signal: controller.signal,
       headers: {
-        signal: controller.signal,
         Authorization: `token ${token}`,
       },
     })
